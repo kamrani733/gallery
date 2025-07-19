@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        padding: 50px;
+      }
+      .gallery-wrapper {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      .main {
+        width: 800px;
+        height: auto;
+        border-radius: 30px;
+        transition: all 0.3s ease-in-out;
+      }
+      .btn {
+        width: 80px;
+        height: 80px;
+        background-color: black;
+        color: white;
+        font-size: 30px;
+        border: 0;
+        border-radius: 100%;
+        cursor: pointer;
+      }
+      .full {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: contain;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 999;
+        border-radius: 0;
+      }
+      .pics {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .pic {
+        width: 100px;
+        height: auto;
+        cursor: pointer;
+        border-radius: 10px;
+        transition: transform 0.2s;
+      }
+      .pic:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gallery-wrapper">
+      <button class="btn" id="prev">⟵</button>
+      <img id="main-pic" src="pic1.png" class="main" />
+      <button class="btn" id="next">⟶</button>
+    </div>
+    <div class="pics"></div>
+
+    <script>
+      const pics = ["pic1.png", "pic2.png", "pic3.png", "pic4.png"];
+      let curent = 0;
+      const mainpic = document.getElementById("main-pic");
+      const gallery = document.querySelector(".pics");
+
+      document.getElementById("next").addEventListener("click", () => {
+        curent = (curent + 1) % pics.length;
+        mainpic.src = pics[curent];
+      });
+
+      document.getElementById("prev").addEventListener("click", () => {
+        curent = (curent - 1 + pics.length) % pics.length;
+        mainpic.src = pics[curent];
+      });
+
+      mainpic.addEventListener("click", () => {
+        mainpic.classList.toggle("full");
+      });
+
+      pics.forEach((src, index) => {
+        const img = document.createElement("img");
+        img.src = src;
+        img.className = "pic";
+        img.addEventListener("click", () => {
+          curent = index;
+          mainpic.src = pics[curent];
+        });
+        gallery.appendChild(img);
+      });
+    </script>
+  </body>
+</html>
